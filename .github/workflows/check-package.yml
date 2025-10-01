@@ -1,4 +1,4 @@
-name: R-CI
+name: R Check Package
 
 on:
   push:
