@@ -39,7 +39,7 @@ jobs:
         id: vars
         run: |
           set -euo pipefail
-          VERSION="$(tr -d '[:space:]' < VERSION)"
+          
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             TAG="v${steps.rversion.outputs.version}"
           else
