@@ -20,7 +20,7 @@ jobs:
       - name: Get R package version
         id: rversion
         run: |
-          VERSION=$(Rscript -e 'cat(as.character(packageVersion("UKFE")))')
+          VERSION=$(Rscript -e 'cat(as.character(packageVersion("RPipelineTest")))')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
