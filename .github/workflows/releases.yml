@@ -27,6 +27,7 @@ jobs:
         id: rversion
         run: |
           VERSION=$(Rscript -e 'cat(as.character(packageVersion("RPipelineTest")))')
+          echo "DEBUG: VERSION from R step is '$VERSION'"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -39,19 +40,25 @@ jobs:
         id: vars
         run: |
           set -euo pipefail
-          
+
+          VERSION="${{ steps.rversion.outputs.version }}"
+
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            TAG="v${steps.rversion.outputs.version}"
+            TAG="v${VERSION}"
           else
             SHORTSHA="$(git rev-parse --short "$GITHUB_SHA")"
-            TAG="v${steps.rversion.outputs.version}-${SHORTSHA}"
+            TAG="v${VERSION}-${SHORTSHA}"
           fi
+
+
           if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
             echo "Tag $TAG already exists; failing."
             exit 1
           fi
+
           git tag -a "$TAG" -m "Tag $TAG for ${GITHUB_REF_NAME}"
           git push origin "$TAG"
+
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Create release (main)
