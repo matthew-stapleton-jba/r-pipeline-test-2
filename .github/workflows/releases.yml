@@ -86,7 +86,7 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           # build source package (.tar.gz) without vignettes/manual to avoid extra system deps
-          R CMD build . --no-manual --no-build-vignettes
+          R CMD build . 
           TARBALL="$(ls -1t *.tar.gz | head -n1)"
           echo "tarball=$TARBALL" >> "$GITHUB_OUTPUT"
           echo "Built: $TARBALL"
